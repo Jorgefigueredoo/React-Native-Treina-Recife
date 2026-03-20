@@ -17,73 +17,75 @@ export default function Login() {
   return (
     <SafeAreaView style={styles.safeArea}>
       <KeyboardAvoidingView
-        behavior={Platform.OS === "ios" ? "padding" : "height"}
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={styles.container}
       >
         <TouchableOpacity style={styles.backButton}>
           <Ionicons name="chevron-back" size={24} color="#0057B8" />
         </TouchableOpacity>
 
-        <View style={styles.logoContainer}>
-          <Image source={logo} style={styles.logo} resizeMode="contain" />
-        </View>
-
-        <View style={styles.formContainer}>
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>E-mail</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="exemplo@123.com"
-              placeholderTextColor="#B9BDC7"
-              keyboardType="email-address"
-              autoCapitalize="none"
-            />
+        <View style={styles.content}>
+          <View style={styles.logoContainer}>
+            <Image source={logo} style={styles.logo} resizeMode="contain" />
           </View>
 
-          <View style={styles.inputGroup}>
-            <Text style={styles.label}>Senha</Text>
-            <TextInput
-              style={styles.input}
-              placeholder="Digite pelo menos 6 caracteres"
-              placeholderTextColor="#B9BDC7"
-              secureTextEntry
-            />
+          <View style={styles.formContainer}>
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>E-mail</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="exemplo@123.com"
+                placeholderTextColor="#B9BDC7"
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
+
+            <View style={styles.inputGroup}>
+              <Text style={styles.label}>Senha</Text>
+              <TextInput
+                style={styles.input}
+                placeholder="Digite pelo menos 6 caracteres"
+                placeholderTextColor="#B9BDC7"
+                secureTextEntry
+              />
+            </View>
+
+            <TouchableOpacity style={styles.forgotPassword}>
+              <Text style={styles.forgotPasswordText}>Esqueci minha senha</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.loginButton}>
+              <Text style={styles.loginButtonText}>Entrar</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity style={styles.registerLink}>
+              <Text style={styles.registerLinkText}>Quero me cadastrar</Text>
+            </TouchableOpacity>
           </View>
 
-          <TouchableOpacity style={styles.forgotPassword}>
-            <Text style={styles.forgotPasswordText}>Esqueci minha senha</Text>
-          </TouchableOpacity>
+          <View style={styles.socialContainer}>
+            <TouchableOpacity style={styles.googleButton}>
+              <Text style={styles.googleButtonText}>Entrar com Google</Text>
+            </TouchableOpacity>
 
-          <TouchableOpacity style={styles.loginButton}>
-            <Text style={styles.loginButtonText}>Entrar</Text>
-          </TouchableOpacity>
+            <TouchableOpacity style={styles.facebookButton}>
+              <FontAwesome5
+                name="facebook-f"
+                size={18}
+                color="#FFFFFF"
+                style={styles.facebookIcon}
+              />
+              <Text style={styles.facebookButtonText}>Entrar com Facebook</Text>
+            </TouchableOpacity>
+          </View>
 
-          <TouchableOpacity style={styles.registerLink}>
-            <Text style={styles.registerLinkText}>Quero me cadastrar</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.socialContainer}>
-          <TouchableOpacity style={styles.googleButton}>
-            <Image
-              source={{
-                uri: "https://upload.wikimedia.org/wikipedia/commons/c/c1/Google_%22G%22_logo.svg",
-              }}
-              style={styles.googleIcon}
-            />
-            <Text style={styles.googleButtonText}>Entrar com Google</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity style={styles.facebookButton}>
-            <FontAwesome5 name="facebook-f" size={18} color="#FFFFFF" style={styles.facebookIcon} />
-            <Text style={styles.facebookButtonText}>Entrar com Facebook</Text>
-          </TouchableOpacity>
-        </View>
-
-        <View style={styles.footerContainer}>
-          <Text style={styles.footerText}>
-            Fazer login como <Text style={styles.footerTextBold}>Profissional</Text>
-          </Text>
+          <View style={styles.footerContainer}>
+            <Text style={styles.footerText}>
+              Fazer login como{" "}
+              <Text style={styles.footerTextBold}>Profissional</Text>
+            </Text>
+          </View>
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -97,127 +99,117 @@ const styles = StyleSheet.create({
   },
   container: {
     flex: 1,
-    paddingHorizontal: 28,
-    paddingTop: 8,
+    paddingHorizontal: 24,
   },
   backButton: {
     alignSelf: "flex-start",
-    marginTop: 4,
-    marginBottom: 8,
+    marginTop: -6,
+    marginLeft: -2,
     padding: 4,
+  },
+  content: {
+    flex: 1,
+    justifyContent: "flex-start",
   },
   logoContainer: {
     alignItems: "center",
     marginTop: 8,
-    marginBottom: 22,
+    marginBottom: 12,
   },
   logo: {
-    width: 170,
-    height: 170,
+    width: 160,
+    height: 160,
   },
   formContainer: {
     width: "100%",
-    marginBottom: 28,
   },
   inputGroup: {
-    marginBottom: 18,
+    marginBottom: 16,
   },
   label: {
-    fontSize: 15,
-    fontWeight: "500",
-    color: "#1F2937",
+    fontSize: 14,
+    fontWeight: "600",
+    color: "#333",
     marginBottom: 8,
   },
   input: {
     borderBottomWidth: 1,
-    borderBottomColor: "#E5E7EB",
-    paddingVertical: 10,
-    fontSize: 16,
-    color: "#111827",
-    fontStyle: "italic",
+    borderBottomColor: "#E5E5E5",
+    paddingVertical: 8,
+    fontSize: 15,
+    color: "#333",
   },
   forgotPassword: {
     alignSelf: "flex-end",
+    marginBottom: 22,
     marginTop: -4,
-    marginBottom: 26,
   },
   forgotPasswordText: {
     color: "#0057B8",
     fontSize: 14,
-    fontWeight: "500",
   },
   loginButton: {
     backgroundColor: "#0057B8",
-    height: 48,
+    paddingVertical: 14,
     borderRadius: 10,
     alignItems: "center",
-    justifyContent: "center",
     marginBottom: 18,
   },
   loginButtonText: {
     color: "#FFFFFF",
-    fontSize: 17,
-    fontWeight: "500",
+    fontSize: 16,
+    fontWeight: "600",
   },
   registerLink: {
     alignItems: "center",
-    marginBottom: 18,
+    marginBottom: 26,
   },
   registerLinkText: {
     color: "#0057B8",
-    fontSize: 16,
-    fontWeight: "500",
+    fontSize: 15,
   },
   socialContainer: {
     width: "100%",
-    marginTop: 4,
   },
   googleButton: {
-    height: 50,
+    height: 48,
     borderRadius: 10,
-    backgroundColor: "#EDF3FB",
-    justifyContent: "center",
+    backgroundColor: "#EEF4FB",
     alignItems: "center",
-    marginBottom: 14,
-    position: "relative",
-  },
-  googleIcon: {
-    width: 20,
-    height: 20,
-    position: "absolute",
-    left: 18,
+    justifyContent: "center",
+    marginBottom: 12,
   },
   googleButtonText: {
     color: "#2C5A94",
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "500",
   },
   facebookButton: {
-    height: 50,
+    height: 48,
     borderRadius: 10,
-    backgroundColor: "#4967AA",
-    justifyContent: "center",
+    backgroundColor: "#4A67AD",
     alignItems: "center",
-    marginBottom: 34,
+    justifyContent: "center",
+    marginBottom: 28,
     position: "relative",
   },
   facebookIcon: {
     position: "absolute",
-    left: 20,
+    left: 18,
   },
   facebookButtonText: {
     color: "#FFFFFF",
-    fontSize: 16,
+    fontSize: 15,
     fontWeight: "500",
   },
   footerContainer: {
     alignItems: "center",
     marginTop: "auto",
-    marginBottom: 18,
+    marginBottom: 16,
   },
   footerText: {
-    fontSize: 15,
-    color: "#333333",
+    color: "#333",
+    fontSize: 14,
   },
   footerTextBold: {
     color: "#0057B8",
