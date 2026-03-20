@@ -1,15 +1,9 @@
-import { Text, View } from "react-native";
+ import SelecaoPerfil from "./telas/SelecaoPerfil/index.jsx";
+ import Login from "./telas/Login/index.jsx";
 
-export default function Index() {
-  return (
-    <View
-      style={{
-        flex: 1,
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Text>Olá mundo!</Text>
-    </View>
-  );
+ export  default function Index() {
+    return (
+      <Login></Login>
+      
+    );
 }
