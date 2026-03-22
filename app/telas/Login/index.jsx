@@ -12,6 +12,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
 import logo from "../../../assets/images/logo_vertical_vermelho.png";
+import googleLogo from "../../../assets/images/google.png"; // adicione a imagem do google nesse caminho
 
 export default function Login() {
   return (
@@ -21,7 +22,7 @@ export default function Login() {
         style={styles.container}
       >
         <TouchableOpacity style={styles.backButton}>
-          <Ionicons name="chevron-back" size={24} color="#0057B8" />
+          <Ionicons name="chevron-back" size={28} color="#0057B8" />
         </TouchableOpacity>
 
         <View style={styles.content}>
@@ -66,16 +67,21 @@ export default function Login() {
 
           <View style={styles.socialContainer}>
             <TouchableOpacity style={styles.googleButton}>
+              <View style={styles.iconBox}>
+                <Image source={googleLogo} style={styles.googleIcon} />
+              </View>
               <Text style={styles.googleButtonText}>Entrar com Google</Text>
             </TouchableOpacity>
 
             <TouchableOpacity style={styles.facebookButton}>
-              <FontAwesome5
-                name="facebook-f"
-                size={18}
-                color="#FFFFFF"
-                style={styles.facebookIcon}
-              />
+              <View style={styles.iconBox}>
+                <FontAwesome5
+                  name="facebook-f"
+                  size={18}
+                  color="#FFFFFF"
+                  style={styles.facebookIcon}
+                />
+              </View>
               <Text style={styles.facebookButtonText}>Entrar com Facebook</Text>
             </TouchableOpacity>
           </View>
@@ -100,12 +106,14 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     paddingHorizontal: 24,
+    paddingTop: 12,
   },
   backButton: {
-    alignSelf: "flex-start",
-    marginTop: -6,
-    marginLeft: -2,
-    padding: 4,
+    position: "absolute",
+    top: 1,
+    left: 12,
+    zIndex: 20,
+    padding: 6,
   },
   content: {
     flex: 1,
@@ -171,37 +179,58 @@ const styles = StyleSheet.create({
   socialContainer: {
     width: "100%",
   },
-  googleButton: {
-    height: 48,
-    borderRadius: 10,
-    backgroundColor: "#EEF4FB",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 12,
-  },
-  googleButtonText: {
-    color: "#2C5A94",
-    fontSize: 15,
-    fontWeight: "500",
-  },
-  facebookButton: {
-    height: 48,
-    borderRadius: 10,
-    backgroundColor: "#4A67AD",
-    alignItems: "center",
-    justifyContent: "center",
-    marginBottom: 28,
-    position: "relative",
-  },
-  facebookIcon: {
-    position: "absolute",
-    left: 18,
-  },
-  facebookButtonText: {
-    color: "#FFFFFF",
-    fontSize: 15,
-    fontWeight: "500",
-  },
+  socialContainer: {
+  width: "100%",
+},
+
+googleButton: {
+  height: 48,
+  borderRadius: 10,
+  backgroundColor: "#EEF4FB",
+  alignItems: "center",
+  justifyContent: "center",
+  marginBottom: 12,
+  position: "relative",
+},
+
+facebookButton: {
+  height: 48,
+  borderRadius: 10,
+  backgroundColor: "#4A67AD",
+  alignItems: "center",
+  justifyContent: "center",
+  marginBottom: 28,
+  position: "relative",
+},
+
+iconBox: {
+  position: "absolute",
+  left: 18,
+  width: 22,
+  height: 22,
+  alignItems: "center",
+  justifyContent: "center",
+},
+
+googleIcon: {
+  width: 18,
+  height: 18,
+  resizeMode: "contain",
+},
+
+facebookIcon: {},
+
+googleButtonText: {
+  color: "#2C5A94",
+  fontSize: 15,
+  fontWeight: "500",
+},
+
+facebookButtonText: {
+  color: "#FFFFFF",
+  fontSize: 15,
+  fontWeight: "500",
+},
   footerContainer: {
     alignItems: "center",
     marginTop: "auto",
