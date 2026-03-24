@@ -157,7 +157,7 @@ const styles = StyleSheet.create({
     fontSize: 14,
   },
   loginButton: {
-    backgroundColor: "#0057B8",
+    backgroundColor: "#0063c7",
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: "center",
@@ -227,7 +227,7 @@ googleButtonText: {
 },
 
 facebookButtonText: {
-  color: "#FFFFFF",
+  color: "#FFFFFF", 
   fontSize: 15,
   fontWeight: "500",
 },
