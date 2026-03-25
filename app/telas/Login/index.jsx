@@ -11,23 +11,42 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
-import logo from "../../../assets/images/logo_vertical_vermelho.png";
 import googleLogo from "../../../assets/images/google.png"; // adicione a imagem do google nesse caminho
+import { useNavigation, useRoute } from "@react-navigation/native";
+import logoVermelho from "../../../assets/images/logo_vertical_vermelho.png";
+import logoBranco from "../../../assets/images/logo_vertical_branco.png";
 
 export default function Login() {
+  const navigation = useNavigation();
+  const route = useRoute();
+
+  const perfil = route.params?.perfil || "paciente";
+  const ehProfissional = perfil === "profissional";
+
   return (
-    <SafeAreaView style={styles.safeArea}>
+    <SafeAreaView style={[styles.safeArea, ehProfissional && styles.safeAreaPro]}>
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={styles.container}
       >
-        <TouchableOpacity style={styles.backButton}>
-          <Ionicons name="chevron-back" size={28} color="#0057B8" />
+        <TouchableOpacity
+          style={styles.backButton}
+          onPress={() => navigation.goBack()}
+        >
+          <Ionicons
+            name="chevron-back"
+            size={28}
+            color={ehProfissional ? "#fff" : "#0063c7"}
+          />
         </TouchableOpacity>
 
         <View style={styles.content}>
           <View style={styles.logoContainer}>
-            <Image source={logo} style={styles.logo} resizeMode="contain" />
+            <Image
+              source={ehProfissional ? logoBranco : logoVermelho}
+              style={styles.logo}
+              resizeMode="contain"
+            />
           </View>
 
           <View style={styles.formContainer}>
@@ -86,12 +105,15 @@ export default function Login() {
             </TouchableOpacity>
           </View>
 
-          <View style={styles.footerContainer}>
-            <Text style={styles.footerText}>
-              Fazer login como{" "}
-              <Text style={styles.footerTextBold}>Profissional</Text>
-            </Text>
-          </View>
+          {
+          !ehProfissional && (
+            <View style={styles.footerContainer}>
+              <Text style={styles.footerText}>
+                Fazer login como{" "}
+                <Text style={styles.footerTextBold}>Profissional</Text>
+              </Text>
+            </View>
+          )}
         </View>
       </KeyboardAvoidingView>
     </SafeAreaView>
@@ -103,11 +125,17 @@ const styles = StyleSheet.create({
     flex: 1,
     backgroundColor: "#FFFFFF",
   },
+
+  safeAreaPro: {
+    backgroundColor: "#003d7a",
+  },
+
   container: {
     flex: 1,
     paddingHorizontal: 24,
     paddingTop: 12,
   },
+
   backButton: {
     position: "absolute",
     top: 1,
@@ -115,31 +143,39 @@ const styles = StyleSheet.create({
     zIndex: 20,
     padding: 6,
   },
+
   content: {
     flex: 1,
     justifyContent: "flex-start",
   },
+
   logoContainer: {
     alignItems: "center",
     marginTop: 8,
     marginBottom: 12,
   },
+
   logo: {
     width: 160,
     height: 160,
+    resizeMode: "contain",
   },
+
   formContainer: {
     width: "100%",
   },
+
   inputGroup: {
     marginBottom: 16,
   },
+
   label: {
     fontSize: 14,
     fontWeight: "600",
     color: "#333",
     marginBottom: 8,
   },
+
   input: {
     borderBottomWidth: 1,
     borderBottomColor: "#E5E5E5",
@@ -147,101 +183,133 @@ const styles = StyleSheet.create({
     fontSize: 15,
     color: "#333",
   },
+
   forgotPassword: {
     alignSelf: "flex-end",
     marginBottom: 22,
     marginTop: -4,
   },
+
   forgotPasswordText: {
     color: "#0057B8",
     fontSize: 14,
   },
+
   loginButton: {
     backgroundColor: "#0063c7",
     paddingVertical: 14,
     borderRadius: 10,
     alignItems: "center",
+    justifyContent: "center",
     marginBottom: 18,
+    minHeight: 48,
   },
+
   loginButtonText: {
     color: "#FFFFFF",
     fontSize: 16,
     fontWeight: "600",
   },
+
   registerLink: {
     alignItems: "center",
     marginBottom: 26,
   },
+
   registerLinkText: {
     color: "#0057B8",
     fontSize: 15,
   },
+
   socialContainer: {
     width: "100%",
   },
-  socialContainer: {
-  width: "100%",
-},
 
-googleButton: {
-  height: 48,
-  borderRadius: 10,
-  backgroundColor: "#EEF4FB",
-  alignItems: "center",
-  justifyContent: "center",
-  marginBottom: 12,
-  position: "relative",
-},
+  googleButton: {
+    height: 48,
+    borderRadius: 10,
+    backgroundColor: "#EEF4FB",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 12,
+    position: "relative",
+  },
 
-facebookButton: {
-  height: 48,
-  borderRadius: 10,
-  backgroundColor: "#4A67AD",
-  alignItems: "center",
-  justifyContent: "center",
-  marginBottom: 28,
-  position: "relative",
-},
+  facebookButton: {
+    height: 48,
+    borderRadius: 10,
+    backgroundColor: "#2d4373",
+    alignItems: "center",
+    justifyContent: "center",
+    marginBottom: 28,
+    position: "relative",
+    borderColor: "#fff",
+    borderWidth: 1,
+  },
 
-iconBox: {
-  position: "absolute",
-  left: 18,
-  width: 22,
-  height: 22,
-  alignItems: "center",
-  justifyContent: "center",
-},
+  iconBox: {
+    position: "absolute",
+    left: 18,
+    width: 22,
+    height: 22,
+    alignItems: "center",
+    justifyContent: "center",
+  },
 
-googleIcon: {
-  width: 18,
-  height: 18,
-  resizeMode: "contain",
-},
+  googleIcon: {
+    width: 18,
+    height: 18,
+    resizeMode: "contain",
+  },
 
-facebookIcon: {},
+  facebookIcon: {
+    width: 18,
+    height: 18,
+    resizeMode: "contain",
+  },
 
-googleButtonText: {
-  color: "#2C5A94",
-  fontSize: 15,
-  fontWeight: "500",
-},
+  googleButtonText: {
+    color: "#2C5A94",
+    fontSize: 15,
+    fontWeight: "500",
+  },
 
-facebookButtonText: {
-  color: "#FFFFFF", 
-  fontSize: 15,
-  fontWeight: "500",
-},
+  facebookButtonText: {
+    color: "#FFFFFF",
+    fontSize: 15,
+    fontWeight: "500",
+  },
+
   footerContainer: {
     alignItems: "center",
     marginTop: "auto",
     marginBottom: 16,
   },
+
   footerText: {
     color: "#333",
     fontSize: 14,
   },
+
   footerTextBold: {
     color: "#0057B8",
     fontWeight: "700",
+  },
+
+  textWhite: {
+    color: "#FFF",
+  },
+
+  inputPro: {
+    borderBottomColor: "#fff",
+    color: "#fff",
+  },
+
+  loginButtonPro: {
+    backgroundColor: "#fff",
+  },
+
+  loginButtonTextPro: {
+    color: "#0063c7",
   },
 });
