@@ -7,6 +7,7 @@ import HomePaciente from "./app/telas/HomePaciente/index.jsx";
 import Login from "./app/telas/Login/index.jsx";
 import SelecaoPerfil from "./app/telas/SelecaoPerfil/index.jsx";
 import MenuLateral from "./app/componentes/MenuLateral/index.jsx";
+import ResultadosBusca from "./app/telas/ResultadosBusca/index.jsx";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -36,7 +37,7 @@ function TabNavigator() {
       })}
     >
       <Tab.Screen name="HomePaciente" component={HomePaciente} options={{ tabBarLabel: "Home" }} />
-      <Tab.Screen name="Mensagens" component={HomePaciente} />
+      <Tab.Screen name="Mensagens" component={ResultadosBusca} />
       <Tab.Screen name="Consultas" component={HomePaciente} />
       <Tab.Screen name="Favoritos" component={HomePaciente} />
     </Tab.Navigator>
