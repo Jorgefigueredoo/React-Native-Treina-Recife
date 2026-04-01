@@ -16,6 +16,7 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import logoVermelho from "../../../assets/images/logo_vertical_vermelho.png";
 import logoBranco from "../../../assets/images/logo_vertical_branco.png";
 
+
 export default function Login() {
   const navigation = useNavigation();
   const route = useRoute();
@@ -75,7 +76,7 @@ export default function Login() {
               <Text style={styles.forgotPasswordText}>Esqueci minha senha</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('HomePaciente')}>
+            <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Drawer')}>
               <Text style={styles.loginButtonText}>Entrar</Text>
             </TouchableOpacity>
 
