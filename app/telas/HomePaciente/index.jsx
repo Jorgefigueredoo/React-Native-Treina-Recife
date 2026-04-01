@@ -1,4 +1,5 @@
 import { Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 import {
   FlatList,
   Image,
@@ -52,6 +53,7 @@ const RECOMENDACOES = [
 const NOTAS = [1, 2, 3, 4, 5];
 
 export default function HomePaciente() {
+  const navigation = useNavigation();
   return (
     <SafeAreaView style={estilos.container}>
       <FlatList
@@ -91,11 +93,11 @@ export default function HomePaciente() {
         ListHeaderComponent={() => (
           <>
             <View style={estilos.header}>
-              <TouchableOpacity>
+              <TouchableOpacity onPress={() => navigation.openDrawer()}>
                 <Feather name="menu" size={28} color={"#333"} />
               </TouchableOpacity>
               <Text style={estilos.greetingText}>
-                Bem-vindo, <Text style={estilos.greetingName}>Victor</Text>
+                Bem-vindo, <Text style={estilos.greetingName}>Jorge</Text>
               </Text>
               <Image
                 source={{ uri: "https://i.pravatar.cc/150?img=12" }}
