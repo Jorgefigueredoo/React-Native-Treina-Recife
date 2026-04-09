@@ -1,6 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 
@@ -64,13 +64,80 @@ export default function ResultadosBusca() {
         <Text style={estilos.headerTitle}>Busca por Psicólogos</Text>
         <View style={{ width: 28 }}></View>
       </View>
-      <FlatList>
+      <FlatList
         data={resultados}
         keyExtractor={(item) => item.id}
-        renderItem={() => <></>}
+        renderItem={({ item }) => (
+          <TouchableOpacity style={estilos.card}>
+            <View style={estilos.cardTop}>
+              <Image source={{ uri: item.avatar }} style={estilos.cardImage} />
+
+              <View style={estilos.cardInfo}>
+                <View style={estilos.cardHeaderRow}>
+                  <Text style={estilos.cardName}>{item.nome}</Text>
+                  <TouchableOpacity>
+                    <Ionicons
+                      name={item.favorito ? "heart" : "heart-outline"}
+                      size={20}
+                      color="#FF3b30"
+                    />
+                  </TouchableOpacity>
+                </View>
+
+                <Text style={estilos.cardSpecialty}>{item.especialidade}</Text>
+
+                <View style={estilos.ratingContainer}>
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <Ionicons
+                      key={star}
+                      name="star"
+                      size={16}
+                      color="#FFD700"
+                    />
+                  ))}
+                  <Text style={estilos.ratingText}>
+                    {item.avaliacao} | {item.reviews} avaliações
+                  </Text>
+                </View>
+              </View>
+            </View>
+
+            <View style={estilos.detailsContainer}>
+              <Text style={estilos.detailText}>
+                <Text style={estilos.detailLabel}>Forma de Pagamento: </Text>
+                {item.pagamento}
+              </Text>
+              <Text style={estilos.detailText}>
+                <Text style={estilos.detailLabel}>Consulta: </Text>
+                {item.consulta}
+              </Text>
+              <Text style={estilos.detailText}>
+                <Text style={estilos.detailLabel}>Modalidade: </Text>
+                {item.modalidade}
+              </Text>
+            </View>
+
+            <View style={estilos.availabilityContainer}>
+              <Text style={estilos.dateText}>{item.data}</Text>
+              <View style={estilos.timeSlotsRow}>
+                {item.horarios.length > 0 ? (
+                  item.horarios.map((horario,idx) => (
+                    <TouchableOpacity key={idx} style={estilos.timeSlot}>
+                      <Text style={estilos.timeSlotText}>{horario}</Text>
+                    </TouchableOpacity>
+                  ))
+                ) : (
+                  <Text style={estilos.noTimeText}>
+                    Sem horários disponíveis
+                  </Text>
+                )}
+              </View>
+            </View>
+          </TouchableOpacity>
+        )}
         contentContainerStyle={estilos.listContent}
         showsVerticalScrollIndicator={false}
-      </FlatList>
+      />
     </SafeAreaView>
   );
 }
