@@ -1,5 +1,7 @@
 import { Feather, FontAwesome, Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { useEffect, useState } from "react";
 import {
   FlatList,
   Image,
@@ -54,6 +56,27 @@ const NOTAS = [1, 2, 3, 4, 5];
 
 export default function HomePaciente() {
   const navigation = useNavigation();
+
+  const [usuario, setUsuario] = useState(null);
+
+  useEffect(() => {
+    const carregarUsuario = async () => {
+      try {
+        const usuarioLogado = await AsyncStorage.getItem("@procardio_user");
+        if (usuarioLogado !== null) {
+          setUsuario(JSON.parse(usuarioLogado));
+        }
+      } catch (erro) {
+        console.error("Erro ao carregar usuário: " + erro);
+      }
+    };
+
+    carregarUsuario();
+  }, []);
+
+  const saudacao = usuario?.sexo === "M" ? "Bem-vindo" : "Bem-vinda";
+
+  const primeiroNome = usuario?.nome.split(" ")[0] || "Paciente";
   return (
     <SafeAreaView style={estilos.container}>
       <FlatList
@@ -97,7 +120,7 @@ export default function HomePaciente() {
                 <Feather name="menu" size={28} color={"#333"} />
               </TouchableOpacity>
               <Text style={estilos.greetingText}>
-                Bem-vindo, <Text style={estilos.greetingName}>Jorge</Text>
+                {saudacao}, <Text style={estilos.greetingName}>{primeiroNome}</Text>
               </Text>
               <Image
                 source={{ uri: "https://i.pravatar.cc/150?img=12" }}
