@@ -1,3 +1,4 @@
+import AsyncStorage from "@react-native-async-storage/async-storage";
 import React from "react";
 import {
   KeyboardAvoidingView,
@@ -8,6 +9,7 @@ import {
   Image,
   TextInput,
   Text,
+  Alert
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { Ionicons, FontAwesome5 } from "@expo/vector-icons";
@@ -15,17 +17,71 @@ import googleLogo from "../../../assets/images/google.png"; // adicione a imagem
 import { useNavigation, useRoute } from "@react-navigation/native";
 import logoVermelho from "../../../assets/images/logo_vertical_vermelho.png";
 import logoBranco from "../../../assets/images/logo_vertical_branco.png";
+import { useState } from "react";
 
+const MOCK_USERS = [
+  {
+    id: "1",
+    email: "victor@teste.com",
+    senha: "123",
+    nome: "Victor Araujo",
+    sexo: "M",
+  },
+  {
+    id: "2",
+    email: "maria@teste.com",
+    senha: "123",
+    nome: "Maria Silva",
+    sexo: "F",
+  },
+  {
+    id: "3",
+    email: "pro@teste.com",
+    senha: "123",
+    nome: "Dr. Carlos",
+    sexo: "M",
+  },
+];
 
 export default function Login() {
+  const [email, setEmail] = useState("");
+  const [senha, setSenha] = useState("");
+
   const navigation = useNavigation();
   const route = useRoute();
 
   const perfil = route.params?.perfil || "paciente";
   const ehProfissional = perfil === "profissional";
 
+  const handleLogin = async () => {
+    if (!email || !senha) {
+      Alert.alert("Atenção", "Por favor, preencha todos os campos.");
+      return;
+    }
+
+    const usuarioEncontrado = MOCK_USERS.find(
+      (u) => u.email.toLowerCase() === email && u.senha === senha
+    );
+
+    if (usuarioEncontrado) {
+      try {
+        await AsyncStorage.setItem("@procardio_user", JSON.stringify(usuarioEncontrado));
+         navigation.navigate("Drawer");
+      } catch(erro) {
+        Alert.alert("Erro", "Não foi possível salvar os dados da sessão: " + erro);
+      }
+
+
+     
+    } else {
+      Alert.alert("Erro", "E-mail ou senha inválidos.");
+    }
+  }
+
   return (
-    <SafeAreaView style={[styles.safeArea, ehProfissional && styles.safeAreaPro]}>
+    <SafeAreaView
+      style={[styles.safeArea, ehProfissional && styles.safeAreaPro]}
+    >
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : undefined}
         style={styles.container}
@@ -59,6 +115,8 @@ export default function Login() {
                 placeholderTextColor="#B9BDC7"
                 keyboardType="email-address"
                 autoCapitalize="none"
+                value={email}
+                onChangeText={setEmail}
               />
             </View>
 
@@ -69,6 +127,8 @@ export default function Login() {
                 placeholder="Digite pelo menos 6 caracteres"
                 placeholderTextColor="#B9BDC7"
                 secureTextEntry
+                value={senha}
+                onChangeText={setSenha}
               />
             </View>
 
@@ -76,7 +136,9 @@ export default function Login() {
               <Text style={styles.forgotPasswordText}>Esqueci minha senha</Text>
             </TouchableOpacity>
 
-            <TouchableOpacity style={styles.loginButton} onPress={() => navigation.navigate('Drawer')}>
+            <TouchableOpacity
+              style={styles.loginButton}
+              onPress={(handleLogin)}>
               <Text style={styles.loginButtonText}>Entrar</Text>
             </TouchableOpacity>
 
@@ -106,8 +168,7 @@ export default function Login() {
             </TouchableOpacity>
           </View>
 
-          {
-          !ehProfissional && (
+          {!ehProfissional && (
             <View style={styles.footerContainer}>
               <Text style={styles.footerText}>
                 Fazer login como{" "}
