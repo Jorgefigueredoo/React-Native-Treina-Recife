@@ -12,6 +12,8 @@ import {
   View,
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
+import FiltroModal from "../../componentes/FiltroModal";
+
 
 const RECOMENDACOES = [
   {
@@ -54,10 +56,99 @@ const RECOMENDACOES = [
 
 const NOTAS = [1, 2, 3, 4, 5];
 
+const MOCK_PROFISSIONAIS = [
+  {
+    id: "1",
+    nome: "Fábio Almeida",
+    especialidade: "Psicologia",
+    avaliacao: "5.0",
+    reviews: "83",
+    pagamento: "Particular",
+    consulta: "R$ 250,00",
+    modalidade: "Online",
+    favorito: false,
+    avatar: "https://i.pravatar.cc/150?img=33",
+  },
+  {
+    id: "2",
+    nome: "Anna Borges",
+    especialidade: "Psicologia",
+    avaliacao: "5.0",
+    reviews: "73",
+    pagamento: "Particular",
+    consulta: "R$ 200,00",
+    modalidade: "Online e Presencial",
+    favorito: false,
+    avatar: "https://i.pravatar.cc/150?img=47",
+  },
+  {
+    id: "3",
+    nome: "Carolina Vasconcelos",
+    especialidade: "Nutricionista",
+    avaliacao: "5.0",
+    reviews: "120",
+    pagamento: "Plano de Saúde",
+    consulta: "-",
+    modalidade: "Presencial",
+    favorito: true,
+    avatar: "https://i.pravatar.cc/150?img=1",
+  },
+  {
+    id: "4",
+    nome: "Diogo Braga",
+    especialidade: "Clínico geral",
+    avaliacao: "4.9",
+    reviews: "115",
+    pagamento: "Particular",
+    consulta: "R$ 150,00",
+    modalidade: "Online",
+    favorito: true,
+    avatar: "https://i.pravatar.cc/150?img=8",
+  },
+];
+
 export default function HomePaciente() {
   const navigation = useNavigation();
 
   const [usuario, setUsuario] = useState(null);
+
+  const [modealVisivel, setModalVisivel] = useState(false);
+
+  const handleFiltrarBusca = (filtros) => {
+    setModalVisivel(false); // Oculta o modal
+
+    const resultadosFiltrados = MOCK_PROFISSIONAIS.filter((profissional) => {
+      let match = true;
+
+      if (
+        filtros.especialidade &&
+        filtros.especialidade !== MediaRecorder.especialidade
+      ) {
+        match = false;
+      }
+
+      if (filtros.tipoConsulta && filtros.tipoConsulta !== "Ambos") {
+        if (!MediaRecorder.modalidade.includes(filtros.tipoConsulta)) {
+          match = false;
+        }
+      }
+
+      if (
+        filtros.nome &&
+        !medico.nome.toLowerCase() !== MediaRecorder.nome.toLowerCase()
+      ) {
+        match = false;
+      }
+
+      if (filtros.pagamento && MediaRecorder.pagamento !== filtros.pagamento) {
+        match = false;
+      }
+
+      return match;
+    });
+
+    navigation.navigate("ResultadosBusca", { resultados: resultadosFiltrados });
+  };
 
   useEffect(() => {
     const carregarUsuario = async () => {
@@ -120,7 +211,8 @@ export default function HomePaciente() {
                 <Feather name="menu" size={28} color={"#333"} />
               </TouchableOpacity>
               <Text style={estilos.greetingText}>
-                {saudacao}, <Text style={estilos.greetingName}>{primeiroNome}</Text>
+                {saudacao},{" "}
+                <Text style={estilos.greetingName}>{primeiroNome}</Text>
               </Text>
               <Image
                 source={{ uri: "https://i.pravatar.cc/150?img=12" }}
@@ -131,25 +223,33 @@ export default function HomePaciente() {
             <Text style={estilos.sectionTitle}>
               Em busca de um profissional?
             </Text>
-            <View style={estilos.searchContainer}>
+            <TouchableOpacity
+              style={estilos.searchContainer}
+              activeOpacity={0.8}
+              onPress={() => setModalVisivel(true)}
+            >
               <Ionicons
                 name="search"
                 size={20}
                 color={"#0063C7"}
                 style={estilos.searchIcon}
               />
-              <TextInput
-                style={estilos.searchInput}
-                placeholder="Encontre sua especialidade desejada"
-                placeholderTextColor={"#999"}
-              />
-            </View>
+              <Text style={estilos.searchInput}>
+                Encontre sua especialidade desejada
+              </Text>
+            </TouchableOpacity>
 
             <Text style={estilos.subTitle}>Recomendações</Text>
           </>
         )}
         contentContainerStyle={estilos.listContent}
         showsVerticalScrollIndicator={false}
+      />
+      <FiltroModal
+        visivel={modealVisivel}
+        aoBuscar={handleFiltrarBusca}
+        aoFechar={() => setModalVisivel(false)}
+      
       />
     </SafeAreaView>
   );
@@ -183,10 +283,10 @@ const estilos = StyleSheet.create({
     paddingVertical: 12,
     borderWidth: 1,
     borderColor: "#EEE",
-    marginBottom: 25,
+    marginBottom: 15,
   },
   searchIcon: { marginRight: 10 },
-  searchInput: { flex: 1, fontSize: 14, color: "#333" },
+  searchText: { flex: 1, fontSize: 14, color: "#999" },
   subTitle: {
     fontSize: 14,
     fontWeight: "600",
