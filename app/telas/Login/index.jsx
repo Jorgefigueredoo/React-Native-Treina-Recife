@@ -1,5 +1,5 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import React from "react";
+import React, { useEffect } from "react";
 import {
   KeyboardAvoidingView,
   Platform,
@@ -18,30 +18,8 @@ import { useNavigation, useRoute } from "@react-navigation/native";
 import logoVermelho from "../../../assets/images/logo_vertical_vermelho.png";
 import logoBranco from "../../../assets/images/logo_vertical_branco.png";
 import { useState } from "react";
+import { listarUsuarios } from "../../servicos/usuarios";
 
-const MOCK_USERS = [
-  {
-    id: "1",
-    email: "victor@teste.com",
-    senha: "123",
-    nome: "Victor Araujo",
-    sexo: "M",
-  },
-  {
-    id: "2",
-    email: "maria@teste.com",
-    senha: "123",
-    nome: "Maria Silva",
-    sexo: "F",
-  },
-  {
-    id: "3",
-    email: "pro@teste.com",
-    senha: "123",
-    nome: "Dr. Carlos",
-    sexo: "M",
-  },
-];
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -53,13 +31,19 @@ export default function Login() {
   const perfil = route.params?.perfil || "paciente";
   const ehProfissional = perfil === "profissional";
 
+  const [usuarios, setUsuarios] = useState([]);
+
+  useEffect(() =>{
+    listarUsuarios(setUsuarios);
+  }, [])
+
   const handleLogin = async () => {
     if (!email || !senha) {
       Alert.alert("Atenção", "Por favor, preencha todos os campos.");
       return;
     }
 
-    const usuarioEncontrado = MOCK_USERS.find(
+    const usuarioEncontrado = usuarios.find(
       (u) => u.email.toLowerCase() === email && u.senha === senha
     );
 

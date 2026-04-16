@@ -13,111 +13,28 @@ import {
 } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import FiltroModal from "../../componentes/FiltroModal";
+import { listarProfissionais } from "../../servicos/profissionais";
 
-
-const RECOMENDACOES = [
-  {
-    id: "1",
-    nome: "Carolina Vasconcelos",
-    especialidade: "Nutricionista",
-    avaliacao: "5.0",
-    reviews: "120",
-    favorito: true,
-    avatar: "https://i.pravatar.cc/150?img=1",
-  },
-  {
-    id: "2",
-    nome: "Julia Marques",
-    especialidade: "Fisioterapeuta",
-    avaliacao: "5.0",
-    reviews: "77",
-    favorito: false,
-    avatar: "https://i.pravatar.cc/150?img=5",
-  },
-  {
-    id: "3",
-    nome: "Affonso Solano",
-    especialidade: "Psiquiatra",
-    avaliacao: "5.0",
-    reviews: "51",
-    favorito: false,
-    avatar: "https://i.pravatar.cc/150?img=11",
-  },
-  {
-    id: "4",
-    nome: "Diogo Braga",
-    especialidade: "Clínico geral",
-    avaliacao: "4.9",
-    reviews: "115",
-    favorito: true,
-    avatar: "https://i.pravatar.cc/150?img=8",
-  },
-];
 
 const NOTAS = [1, 2, 3, 4, 5];
 
-const MOCK_PROFISSIONAIS = [
-  {
-    id: "1",
-    nome: "Fábio Almeida",
-    especialidade: "Psicologia",
-    avaliacao: "5.0",
-    reviews: "83",
-    pagamento: "Particular",
-    consulta: "R$ 250,00",
-    modalidade: "Online",
-    favorito: false,
-    avatar: "https://i.pravatar.cc/150?img=33",
-  },
-  {
-    id: "2",
-    nome: "Anna Borges",
-    especialidade: "Psicologia",
-    avaliacao: "5.0",
-    reviews: "73",
-    pagamento: "Particular",
-    consulta: "R$ 200,00",
-    modalidade: "Online e Presencial",
-    favorito: false,
-    avatar: "https://i.pravatar.cc/150?img=47",
-  },
-  {
-    id: "3",
-    nome: "Carolina Vasconcelos",
-    especialidade: "Nutricionista",
-    avaliacao: "5.0",
-    reviews: "120",
-    pagamento: "Plano de Saúde",
-    consulta: "-",
-    modalidade: "Presencial",
-    favorito: true,
-    avatar: "https://i.pravatar.cc/150?img=1",
-  },
-  {
-    id: "4",
-    nome: "Diogo Braga",
-    especialidade: "Clínico geral",
-    avaliacao: "4.9",
-    reviews: "115",
-    pagamento: "Particular",
-    consulta: "R$ 150,00",
-    modalidade: "Online",
-    favorito: true,
-    avatar: "https://i.pravatar.cc/150?img=8",
-  },
-];
-
 export default function HomePaciente() {
   const navigation = useNavigation();
+
+  const [profissionais, setProfissionais] = useState([]);
 
   const [usuario, setUsuario] = useState(null);
 
   const [modealVisivel, setModalVisivel] = useState(false);
 
+  useEffect(()=> {
+    listarProfissionais(setProfissionais);
+  })
+
   const handleFiltrarBusca = (filtros) => {
     setModalVisivel(false); // Oculta o modal
 
-    const resultadosFiltrados = MOCK_PROFISSIONAIS.filter((profissional) => {
+    const resultadosFiltrados = profissionais.filter((profissional) => {
       let match = true;
 
       if (
@@ -163,6 +80,7 @@ export default function HomePaciente() {
     };
 
     carregarUsuario();
+    listarProfissionais(setProfissionais);
   }, []);
 
   const saudacao = usuario?.sexo === "M" ? "Bem-vindo" : "Bem-vinda";
@@ -171,7 +89,7 @@ export default function HomePaciente() {
   return (
     <SafeAreaView style={estilos.container}>
       <FlatList
-        data={RECOMENDACOES}
+        data={profissionais}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
           <View style={estilos.card}>
