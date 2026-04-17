@@ -68,7 +68,7 @@ export default function ResultadosBusca() {
         data={resultados}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={estilos.card}>
+          <TouchableOpacity style={estilos.card} onPress= {() => navigation.navigate("PerfilProfissional", { idProfissional: item.id })}>
             <View style={estilos.cardTop}>
               <Image source={{ uri: item.avatar }} style={estilos.cardImage} />
 
