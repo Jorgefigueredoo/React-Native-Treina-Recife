@@ -8,6 +8,7 @@ import Login from "./app/telas/Login/index.jsx";
 import SelecaoPerfil from "./app/telas/SelecaoPerfil/index.jsx";
 import MenuLateral from "./app/componentes/MenuLateral/index.jsx";
 import ResultadosBusca from "./app/telas/ResultadosBusca/index.jsx";
+import PerfilProfissional from "./app/telas/PerfilProfissional/index.jsx";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -75,6 +76,7 @@ export default function App() {
         <Stack.Screen name="Login" component={Login} />
         <Stack.Screen name="Drawer" component={DrawerNavigator} />
         <Stack.Screen name="ResultadosBusca" component={ResultadosBusca} />
+         <Stack.Screen name="PerfilProfissional" component={PerfilProfissional} />
       </Stack.Navigator>
     </NavigationContainer>
   );
