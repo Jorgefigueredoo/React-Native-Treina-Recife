@@ -9,6 +9,10 @@ import SelecaoPerfil from "./app/telas/SelecaoPerfil/index.jsx";
 import MenuLateral from "./app/componentes/MenuLateral/index.jsx";
 import ResultadosBusca from "./app/telas/ResultadosBusca/index.jsx";
 import PerfilProfissional from "./app/telas/PerfilProfissional/index.jsx";
+import { useFonts } from "expo-font";
+import { Roboto_400Regular, Roboto_700Bold } from "@expo-google-fonts/roboto";
+import { tema } from "./app/tema/index.js";
+import { GlobalProvider } from "./app/contextos/GlobalContext.js";
 
 const Stack = createStackNavigator();
 const Drawer = createDrawerNavigator();
@@ -32,8 +36,8 @@ function TabNavigator() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: "#0063c7",
-        tabInactiveTintColor: "#666",
+        tabBarActiveTintColor: tema.colors.primary,
+        tabInactiveTintColor: tema.colors.text,
         headerShown: false,
       })}
     >
@@ -52,7 +56,7 @@ function DrawerNavigator() {
       screenOptions={{ 
         headerShown: false, 
         drawerStyle: { width: "80%" },
-        headerTintColor: "#0063c7",
+        headerTintColor: tema.colors.primary,
         drawerType: 'front', 
       }}
     >
@@ -66,8 +70,13 @@ function DrawerNavigator() {
 }
 
 export default function App() {
+  const [fontes] = useFonts({
+    Roboto_400Regular,
+    Roboto_700Bold
+  })
   return (
     <NavigationContainer>
+      <GlobalProvider>
       <Stack.Navigator
         initialRouteName="SelecaoPerfil"
         screenOptions={{ headerShown: false }}
@@ -78,6 +87,7 @@ export default function App() {
         <Stack.Screen name="ResultadosBusca" component={ResultadosBusca} />
          <Stack.Screen name="PerfilProfissional" component={PerfilProfissional} />
       </Stack.Navigator>
+      </GlobalProvider>
     </NavigationContainer>
   );
 }

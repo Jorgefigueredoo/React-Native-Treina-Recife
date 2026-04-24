@@ -2,9 +2,13 @@ import { View, StyleSheet, Image, TouchableOpacity, Text } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import logo from "../../../assets/images/logo_vertical_vermelho.png";
 import { useNavigation } from "@react-navigation/native";
+import { useContext } from "react";
+import { tema } from "../../tema";
+import { GlobalContext } from "../../contextos/GlobalContext";
 
 export default function SelecaoPerfil() {
   const navigation = useNavigation();
+  const {fontes} = useContext(GlobalContext);
 
   return (
     <SafeAreaView style={estilos.SafeArea}>
@@ -42,13 +46,13 @@ export default function SelecaoPerfil() {
 const estilos = StyleSheet.create({
   SafeArea: {
     flex: 1,
-    backgroundColor: "whitesmoke",
+    backgroundColor: tema.colors.background,
   },
 
   container: {
     flex: 1,
     paddingHorizontal: 24,
-    justifyContent: "space-between",
+    justifyContent: tema.spacing.large,
     alignItems: "center",
   },
   logoContainer: {
@@ -66,36 +70,36 @@ const estilos = StyleSheet.create({
   botaoPrimario: {
     width: 325,
     height: 50,
-    backgroundColor: "#0063C7",
-    paddingVertical: 16,
-    paddingHorizontal: 32,
-    borderRadius: 10,
+    backgroundColor: tema.colors.primary,
+    paddingVertical: tema.spacing.medium,
+    paddingHorizontal: tema.spacing.xlarge,
+    borderRadius: tema.borderRadius.medium,
     alignItems: "center",
-    marginBottom: 16,
+    marginBottom: tema.spacing.medium,
   },
 
   textoBotaoPrimario: {
-    color: "#FFF",
+    color: tema.colors.text,
     fontSize: 15,
     fontWeight: "bold",
-    textAlign: "center",
+    fontFamily: "Roboto_400Regular"
   },
 
   botaoSecundario: {
     width: 325,
     height: 50,
-    backgroundColor: "#FFF",
-    paddingVertical: 16,
-    paddingHorizontal: 32,
-    borderRadius: 10,
-    borderColor: "#0063C7",
+    backgroundColor: tema.colors.white,
+    paddingVertical: tema.spacing.medium,
+    paddingHorizontal: tema.spacing.xlarge,
+    borderRadius: tema.borderRadius.medium,
+    borderColor: tema.colors.primary,
     borderWidth: 1,
     alignItems: "center",
   },
   textoBotaoSecundario: {
     fontSize: 15,
-    backgroundColor: "#FFFFFF",
-    color: "#0063C7",
-    textAlign: "center",
+    fontFamily: "Roboto_400Regular",
+    color: tema.colors.primary,
+    
   },
 });

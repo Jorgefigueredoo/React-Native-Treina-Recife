@@ -1,36 +1,11 @@
 import { Feather, Ionicons, MaterialCommunityIcons } from "@expo/vector-icons";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
-import { useState, useEffect } from "react";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { useNavigation } from "@react-navigation/native";
+import { useContext } from "react";
+import { GlobalContext } from "../../contextos/GlobalContext";
+import { tema } from "../../tema";
 
 export default function MenuLateral() {
-  const navigation = useNavigation();
-  const [usuario, setUsuario] = useState(null);
-
-  useEffect(() => {
-    const carregarUsuario = async () => {
-      try {
-        const usuarioLogado = await AsyncStorage.getItem("@procardio_user");
-        if (usuarioLogado !== null) {
-          setUsuario(JSON.parse(usuarioLogado));
-        }
-      } catch (erro) {
-        console.error("Erro ao carregar usuário: " + erro);
-      }
-    };
-    carregarUsuario();
-  }, []);
-
-  const handleSair = async () => {
-    try {
-      await AsyncStorage.removeItem("@procardio_user");
-    } catch (erro) {
-      console.error("Erro ao remover dados do usuário: " + erro);
-    }
-
-    navigation.navigate("SelecaoPerfil");
-  };
+  const { usuario, signOut } = useContext(GlobalContext);
 
   return (
     <View style={estilos.container}>
@@ -81,7 +56,7 @@ export default function MenuLateral() {
         <MenuItem
           icon={"log-out-outline"}
           label={"Sair"}
-          action= {handleSair}
+          action={signOut}
           IconComponent={Ionicons}
         />
       </View>
@@ -106,7 +81,7 @@ function MenuItem({ icon, label, IconComponent, action }) {
 const estilos = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#FFF",
+    backgroundColor: tema.colors.white,
     paddingTop: 60,
     paddingHorizontal: 20,
   },
@@ -116,7 +91,7 @@ const estilos = StyleSheet.create({
     alignSelf: "flex-start",
   },
   profilePic: { width: 60, height: 60, borderRadius: 30, marginBottom: 10 },
-  profileName: { fontSize: 16, fontWeight: "bold", color: "#000" },
+  profileName: { fontSize: 16, fontWeight: "bold", color: tema.colors.text },
   menuItemsList: { flex: 1 },
   drawerItem: {
     flexDirection: "row",
@@ -124,6 +99,6 @@ const estilos = StyleSheet.create({
     paddingVertical: 15,
   },
   itemIcon: { marginRight: 20, width: 25, textAlign: "center" },
-  itemText: { fontSize: 15, color: "#333" },
+  itemText: { fontSize: 15, color: tema.colors.text },
   footer: { paddingTop: 10, paddingBottom: 30 },
 });

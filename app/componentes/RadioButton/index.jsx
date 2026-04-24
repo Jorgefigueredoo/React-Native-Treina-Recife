@@ -1,5 +1,6 @@
 import { Ionicons } from "@expo/vector-icons";
 import { StyleSheet, Text, TouchableOpacity } from "react-native";
+import { tema } from "../../tema";
 
 export default function RadioButton({ label, selected, onPress }) {
   return (
@@ -7,12 +8,12 @@ export default function RadioButton({ label, selected, onPress }) {
       <Ionicons
         name={selected ? "radio-button-on" : "radio-button-off"}
         size={20}
-        color={"#0063C7"}
+        color={selected ? tema.colors.primary : tema.colors.primary}
       />
       <Text
         style={[
           estilos.radioLabel,
-          selected && { fontWeight: "bold", color: "#007BFF" },
+          selected && { fontWeight: "bold", color: tema.colors.secundary },
         ]}
       >
         {label}
