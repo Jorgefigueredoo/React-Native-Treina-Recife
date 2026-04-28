@@ -79,7 +79,7 @@ const estilos = StyleSheet.create({
   },
 
   textoBotaoPrimario: {
-    color: tema.colors.text,
+    color: tema.colors.white,
     fontSize: 15,
     fontWeight: "bold",
     fontFamily: "Roboto_400Regular"
