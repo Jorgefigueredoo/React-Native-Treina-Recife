@@ -39,25 +39,25 @@ export default function HomePaciente() {
 
       if (
         filtros.especialidade &&
-        filtros.especialidade !== MediaRecorder.especialidade
+        filtros.especialidade !== profissional.especialidade
       ) {
         match = false;
       }
 
       if (filtros.tipoConsulta && filtros.tipoConsulta !== "Ambos") {
-        if (!MediaRecorder.modalidade.includes(filtros.tipoConsulta)) {
+        if (!profissional.modalidade?.includes(filtros.tipoConsulta)) {
           match = false;
         }
       }
 
       if (
         filtros.nome &&
-        !medico.nome.toLowerCase() !== MediaRecorder.nome.toLowerCase()
+        !profissional.nome.toLowerCase().includes(filtros.nome.toLowerCase())
       ) {
         match = false;
       }
 
-      if (filtros.pagamento && MediaRecorder.pagamento !== filtros.pagamento) {
+      if (filtros.pagamento && profissional.pagamento !== filtros.pagamento) {
         match = false;
       }
 
