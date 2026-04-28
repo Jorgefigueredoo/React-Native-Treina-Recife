@@ -1,10 +1,11 @@
 import { Ionicons } from "@expo/vector-icons";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import { Image, StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
-
-const resultados = [
+import * as Print from "expo-print";
+import * as Sharing from "expo-sharing";
+const resultadosMock = [
   {
     id: "1",
     nome: "Fábio Almeida",
@@ -51,6 +52,67 @@ const resultados = [
 
 export default function ResultadosBusca() {
   const navigation = useNavigation();
+  const route = useRoute();
+  const resultados = route.params?.resultados ?? resultadosMock;
+
+  const gerarPDF = async () => {
+    try {
+      const linhasTabela = resultadosMock
+        .map(
+          (medico) =>
+            `<tr>
+          <td>${medico.nome}</td>
+          <td>${medico.especialidade}</td>
+          <td>${medico.consulta}</td>
+        </tr>`,
+        )
+        .join("");
+
+      const conteudoHTML = `
+        <html>
+          <head>
+            <style>
+              body{ font-family:Arial; padding:20px; }
+              h1{ color:#0056b3; }
+              table{ width:100%; border-collapse:collapse; margin-top:20px; }
+              th, td{ border:1px solid #ddd; padding:8px; text-align:left; }
+              th{ background-color:#f2f2f2; }
+              </style>
+          </head>
+          <body>
+            <h1>Relatório de profissionais</h1>
+            <p>Abaixo estão os resultados da sua busca:</p>
+
+            <table>
+              <tr>
+                <th>Nome</th>
+                <th>Especialidade</th>
+                <th>Valor da Consulta</th>
+              </tr>
+              ${linhasTabela}
+            </table>
+            
+
+            </body>
+
+        </html>`;
+
+      const { uri } = await Print.printToFileAsync({ html: conteudoHTML });
+      console.log("PDF gerado em: ", uri);
+
+      const compDisp = await Sharing.isAvailableAsync();
+      if (compDisp) {
+        await Sharing.shareAsync(uri);
+      } else {
+        Alert.alert("Compartilhamento não disponível neste dispositivo");
+      }
+
+
+    } catch (error) {
+      console.error("Erro ao gerar PDF: ", error);
+    }
+  };
+  ("");
 
   return (
     <SafeAreaView style={estilos.container}>
@@ -64,11 +126,34 @@ export default function ResultadosBusca() {
         <Text style={estilos.headerTitle}>Busca por Psicólogos</Text>
         <View style={{ width: 28 }}></View>
       </View>
+
+      <View style={{ paddingHorizontal: 20, paddingBottom: 15 }}>
+        <TouchableOpacity
+          style={{
+            backgroundColor: "#FF3B30",
+            borderRadius: 8,
+            padding: 15,
+            alignItems: "center",
+          }}
+          onPress={gerarPDF}
+        >
+          <Text style={{ color: "#FFF", fontWeight: "bold" }}>
+            Exportar Resultados em PDF
+          </Text>
+        </TouchableOpacity>
+      </View>
       <FlatList
         data={resultados}
         keyExtractor={(item) => item.id}
         renderItem={({ item }) => (
-          <TouchableOpacity style={estilos.card} onPress= {() => navigation.navigate("PerfilProfissional", { idProfissional: item.id })}>
+          <TouchableOpacity
+            style={estilos.card}
+            onPress={() =>
+              navigation.navigate("PerfilProfissional", {
+                idProfissional: item.id,
+              })
+            }
+          >
             <View style={estilos.cardTop}>
               <Image source={{ uri: item.avatar }} style={estilos.cardImage} />
 
@@ -121,7 +206,7 @@ export default function ResultadosBusca() {
               <Text style={estilos.dateText}>{item.data}</Text>
               <View style={estilos.timeSlotsRow}>
                 {item.horarios.length > 0 ? (
-                  item.horarios.map((horario,idx) => (
+                  item.horarios.map((horario, idx) => (
                     <TouchableOpacity key={idx} style={estilos.timeSlot}>
                       <Text style={estilos.timeSlotText}>{horario}</Text>
                     </TouchableOpacity>
