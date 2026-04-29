@@ -14,7 +14,7 @@ import {
 import { SafeAreaView } from "react-native-safe-area-context";
 import FiltroModal from "../../componentes/FiltroModal";
 import { listarProfissionais } from "../../servicos/profissionais";
-
+import NotaEstrela from "../../componentes/NotaEstrela";
 
 const NOTAS = [1, 2, 3, 4, 5];
 
@@ -107,14 +107,7 @@ export default function HomePaciente() {
               </View>
               <Text style={estilos.cardSpecialty}>{item.especialidade}</Text>
               <View style={estilos.ratingContainer}>
-                {NOTAS.map((nota) => (
-                  <FontAwesome
-                    key={nota}
-                    name="star"
-                    size={12}
-                    color={"#FFD700"}
-                  />
-                ))}
+                <NotaEstrela nota={item.avaliacao} />
                 <Text style={estilos.ratingText}>
                   {item.avaliacao} | {item.reviews} avaliações
                 </Text>

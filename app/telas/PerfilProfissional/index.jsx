@@ -4,9 +4,9 @@ import { useNavigation } from "@react-navigation/native";
 import { FontAwesome, Ionicons } from "@expo/vector-icons";
 import { View, Text, Image } from "react-native";
 import { useRoute } from "@react-navigation/native";
-import { use } from "react";
 import { useEffect, useState } from "react";
 import { buscarProfissional } from "../../servicos/profissionais";
+import NotaEstrela from "../../componentes/NotaEstrela";
 
 export default function PerfilProfissional() {
   const navigation = useNavigation();
@@ -19,11 +19,6 @@ export default function PerfilProfissional() {
   useEffect(() => {
     buscarProfissional(idProfissional, setProfissional);
   }, [idProfissional]);
-
-  const notas = Array.from(
-    { length: Math.round(profissional.avaliacao) },
-    (_, idx) => idx + 1,
-  );
 
   return (
     <SafeAreaView style={estilos.container}>
@@ -67,17 +62,7 @@ export default function PerfilProfissional() {
             </View>
           </View>
           <View style={estilos.ratingRow}>
-            <View style={estilos.starsContainer}>
-              {notas.map((nota) => (
-                <FontAwesome
-                  key={nota}
-                  name="star"
-                  size={20}
-                  color={"#FFD700"}
-                  style={{ marginStart: 2 }}
-                />
-              ))}
-            </View>
+            <NotaEstrela nota={profissional.avaliacao} />
           </View>
         </View>
         <View style={estilos.socialSection}>

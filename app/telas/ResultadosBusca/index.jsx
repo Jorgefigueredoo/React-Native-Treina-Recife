@@ -5,6 +5,8 @@ import { FlatList } from "react-native-gesture-handler";
 import { SafeAreaView } from "react-native-safe-area-context";
 import * as Print from "expo-print";
 import * as Sharing from "expo-sharing";
+import NotaEstrela from "../../componentes/NotaEstrela";
+
 const resultadosMock = [
   {
     id: "1",
@@ -172,14 +174,7 @@ export default function ResultadosBusca() {
                 <Text style={estilos.cardSpecialty}>{item.especialidade}</Text>
 
                 <View style={estilos.ratingContainer}>
-                  {[1, 2, 3, 4, 5].map((star) => (
-                    <Ionicons
-                      key={star}
-                      name="star"
-                      size={16}
-                      color="#FFD700"
-                    />
-                  ))}
+                  <NotaEstrela nota={item.avaliacao} />
                   <Text style={estilos.ratingText}>
                     {item.avaliacao} | {item.reviews} avaliações
                   </Text>
